@@ -7,5 +7,7 @@
             "email": "dlb.id.au@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "slim/slim": "^3.3"
+    }
 }
