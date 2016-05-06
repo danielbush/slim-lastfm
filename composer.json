@@ -1,0 +1,11 @@
+{
+    "name": "danb/lastfm",
+    "description": "Example app for BigCommerce",
+    "authors": [
+        {
+            "name": "Daniel Bush",
+            "email": "dlb.id.au@gmail.com"
+        }
+    ],
+    "require": {}
+}
