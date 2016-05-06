@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ruleset name="PSR2 Custom">
+ <description>PSR2 based standard</description>
+ <exclude-pattern>*/vendor/*</exclude-pattern>
+ <exclude-pattern>RoboFile.php</exclude-pattern>
+ <arg name="report" value="checkstyle"/>
+ <!--
+ <arg value="np"/>
+ -->
+ <rule ref="PSR1"/>
+ <rule ref="PSR2"/>
+</ruleset>
