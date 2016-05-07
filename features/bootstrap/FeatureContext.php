@@ -5,15 +5,15 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Tester\Exception\PendingException;
-
-
-//require 'vendor/autoload.php';
+use GuzzleHttp\Client;
+use PHPUnit_Framework_Assert as Assert;
 
 /**
  * Defines application features from the specific context.
  */
 class FeatureContext implements Context, SnippetAcceptingContext
 {
+    private $httpClient;
     /**
      * Initializes context.
      *
@@ -23,6 +23,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function __construct()
     {
+        $this->httpClient = new Client(array('base_uri' => 'http://localhost:8001'));
     }
 
 
@@ -31,7 +32,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function anHttpClientGetsPing()
     {
-        throw new PendingException();
+        $this->response = $this->httpClient->get('/ping');
     }
 
     /**
@@ -39,7 +40,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function aPongWillBeReceived()
     {
-        throw new PendingException();
+        Assert::assertEquals('pong', (string)$this->response->getBody());
     }
 
 }
