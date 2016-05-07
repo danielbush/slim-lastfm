@@ -1,4 +1,7 @@
 # Lastfm app demo in slim
 
-vendor/bin/robo ping
+List commands:
+  vendor/bin/robo list
 
+To start a dev server (php -S):
+  vendor/bin/robo server:start [<port>]

@@ -13,4 +13,13 @@ class RoboFile extends \Robo\Tasks
     {
         $this->say("pong");
     }
+
+    /**
+     * Start dev server in the foreground.
+     */
+    public function serverStart($port = 8000)
+    {
+        $this->taskExec("php -S localhost:{$port}")
+             ->run();
+    }
 }
