@@ -22,4 +22,18 @@ class RoboFile extends \Robo\Tasks
         $this->taskExec("php -S localhost:{$port}")
              ->run();
     }
+
+    /**
+     * Run end-to-end / acceptance tests.
+     */
+    public function testAcceptance()
+    {
+        chdir('public/');
+        $this->taskServer(8001) // this is also hardcoded in behat
+             ->background()
+             ->run();
+        chdir('..');
+        $this->taskExec("vendor/bin/behat")
+             ->run();
+    }
 }
