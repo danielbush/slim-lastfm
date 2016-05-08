@@ -27,6 +27,12 @@ $app->get('/', function (Request $request, Response $response) {
     return $this->view->render($response, 'searchByCountry.twig');
 });
 
+$app->post('/', function (Request $request, Response $response) {
+    return $this->view->render($response, 'searchByCountry.twig', array(
+        'results' => true
+    ));
+});
+
 $app->get('/ping', function (Request $request, Response $response) {
     $response = $response->withHeader('Content-Type', 'text/plain');
     $response->getBody()->write("pong");
