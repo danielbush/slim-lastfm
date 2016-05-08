@@ -21,7 +21,8 @@
     },
     "autoload": {
       "psr-4": {
-        "danb\\Lastfm\\Http\\": "app/"
+        "danb\\Lastfm\\Http\\": "app/",
+        "danb\\Lastfm\\": "lib/"
       }
     }
 }

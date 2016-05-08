@@ -25,14 +25,20 @@
     </div>
   </div>
   <div class="container text-center">
-    {% if results == true %}
-      <h3>Results</h3>
-      <table class="table"><tbody>
-        <tr>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody></table>
+    {% if ok %}
+      <div class="col-md-3"></div>
+      <div class="col-md-6 text-left">
+        <h3>Results for {{ attr.country }}</h3>
+        <table class="table" ><tbody>
+          {% for row in rows %}
+            <tr>
+              <td class="col-md-1"><img src="{{ row.image[1].src }}" /></td>
+              <td class="col-md-11 text-left">{{ row.name }}</td>
+            </tr>
+          {% endfor %}
+        </tbody></table>
+      </div>
+      <div class="col-md-3"></div>
     {% endif %}
   </div>
 
