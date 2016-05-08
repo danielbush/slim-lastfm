@@ -19,7 +19,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function serverStart($port = 8000)
     {
-        $this->taskExec("php -S localhost:{$port}")
+        $this->taskExec("php -S localhost:{$port} -t public/")
              ->run();
     }
 
