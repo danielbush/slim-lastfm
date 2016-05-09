@@ -5,7 +5,7 @@ namespace danb\Lastfm;
 /**
  * Stub for a data access object (DAO) that will retrieve data from Lastfm.
  */
-class LastfmDaoStub
+class LastfmDaoStub implements LastfmDaoInterface
 {
     public function __construct()
     {
@@ -20,7 +20,7 @@ class LastfmDaoStub
      * $result->artists[$n] is an assoc array of artist data
      * $result->attr is assoc array of metadata
      */
-    public function getTopArtistsByCountry($country, $limit = 5, $page = 1)
+    public function getTopArtistsByCountry(string $country, int $limit = 5, int $page = 1)
     {
         $result = new \stdClass;
         $result->artists = array_map(function ($num) {
