@@ -44,4 +44,23 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
         Assert::assertEquals('pong', (string)$this->response->getBody());
     }
 
+    /**
+     * @Then I should see links with href matching :arg1 for each name
+     */
+    public function iShouldSeeLinksWithHrefMatching($arg1)
+    {
+        $session = $this->getSession();
+        $page = $session->getPage();
+        $links = $page->findAll('css', 'td.name a');
+        $ok = true;
+        foreach ($links as $link) {
+            $href = $link->getAttribute('href');
+            if (!preg_match($arg1, $href)) {
+                $ok = false;
+                break;
+            }
+        }
+        Assert::assertTrue($ok, "At least one link did not have expect href: '$href'");
+    }
+
 }

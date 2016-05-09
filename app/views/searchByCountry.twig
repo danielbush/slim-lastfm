@@ -32,8 +32,8 @@
         <table class="table" ><tbody>
           {% for row in rows %}
             <tr>
-              <td class="col-md-1"><img src="{{ row.image[1].src }}" /></td>
-              <td class="col-md-11 text-left">{{ row.name }}</td>
+              <td class="col-md-1 image"><img src="{{ row.image[1].src }}" /></td>
+              <td class="col-md-11 text-left name"><a href="/artist/{{ row.mbid }}/top" >{{ row.name }}</a></td>
             </tr>
           {% endfor %}
         </tbody></table>

@@ -15,4 +15,5 @@ Feature: Searching by country
     Then I should see 5 "img" elements
     Then I should see a "td" element
     And I should see text matching "Australia"
-    # TODO: I should see an a-link linking to top tracks
+    And I should see links with href matching "#/artist/[a-f0-9-]+/top#i" for each name
+
