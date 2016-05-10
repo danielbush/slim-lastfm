@@ -4,7 +4,7 @@ namespace danb\Lastfm\Http;
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use \danb\Lastfm\LastfmDaoStub;
+use \danb\Lastfm\DaoStub;
 
 /**
  * Class for handling the configuration of Slim app routes.
@@ -24,7 +24,7 @@ class Routes
         });
 
         $app->post('/', function (Request $request, Response $response) {
-            $stub = new LastfmDaoStub();
+            $stub = new DaoStub();
             $country = "australia";
             $results = $stub->getTopArtistsByCountry($country);
             $ok = true;

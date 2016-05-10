@@ -4,7 +4,7 @@ namespace danb\Lastfm;
 
 use GuzzleHttp\Client;
 
-class LastfmDao implements LastfmDaoInterface
+class Dao implements DaoInterface
 {
     public function __construct(Client $client, string $api_key)
     {

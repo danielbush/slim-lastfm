@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use GuzzleHttp\Client;
 
-class LastfmDaoSpec extends ObjectBehavior
+class DaoSpec extends ObjectBehavior
 {
     function let(Client $client)
     {
@@ -15,7 +15,7 @@ class LastfmDaoSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('danb\Lastfm\LastfmDao');
+        $this->shouldHaveType('danb\Lastfm\Dao');
     }
 
     function it_can_correctly_request_top_artists_by_country(Client $client)

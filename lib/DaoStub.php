@@ -5,7 +5,7 @@ namespace danb\Lastfm;
 /**
  * Stub for a data access object (DAO) that will retrieve data from Lastfm.
  */
-class LastfmDaoStub implements LastfmDaoInterface
+class DaoStub implements DaoInterface
 {
     public function __construct()
     {
