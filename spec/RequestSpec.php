@@ -36,10 +36,14 @@ class RequestSpec extends ObjectBehavior
         $this->api_key->shouldBe('api-key-value');
     }
 
-    function it_can_decode_json_responses()
+    function it_can_decode_json_responses(Client $client)
     {
-        $this->decodeResponse('{"key1": [1, 2, 3]}')
-             ->shouldBe(array('key1' => array(1, 2, 3)));
+        $this->beConstructedWith('http://base-uri', 'api-key-value');
+        $this->client = $client; // Put our mock in.
+        $client->request('GET', null, array())
+               ->willReturn('{"some": "response"}');
+        $this->get(array())
+             ->shouldBe(array('some' => 'response'));
     }
 
     function it_can_tidy_up_lastfm_hash_text_keys()
@@ -48,4 +52,13 @@ class RequestSpec extends ObjectBehavior
              ->shouldBeLike(array('text' => 'some text', 'other' => 456));
     }
 
+    function it_should_use_process_args_as_query_params(Client $client)
+    {
+        $this->beConstructedWith('http://base-uri', 'api-key-value');
+        $this->client = $client; // Put our mock in.
+        $client->request('GET', null, array('method' => 'method1'))
+               ->shouldBeCalled()
+               ->willReturn('{"some": "response"}');
+        $this->get(array('method' => 'method1'));
+    }
 }

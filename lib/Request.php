@@ -6,24 +6,27 @@ use GuzzleHttp\Client;
 
 class Request
 {
-    public function __construct(string $base_uri, string $api_key)
+    final public function __construct(string $base_uri, string $api_key)
     {
         $this->client = new Client(array('base_uri' => $base_uri));
         $this->api_key = $api_key;
     }
 
-    final public function get()
+    final public function get(array $queryParams)
     {
-        $json = $this->makeRequest();
+        $json = $this->makeRequest($queryParams);
         $response = $this->decodeResponse($json);
+        $response = $this->tidyUp($response);
         return $response;
     }
 
-    protected function makeRequest()
+    private function makeRequest(array $queryParams)
     {
+        $response = $this->client->request('GET', null, $queryParams);
+        return $response;
     }
 
-    public function decodeResponse(string $json)
+    private function decodeResponse(string $json)
     {
         return json_decode($json, true);
     }
@@ -35,5 +38,10 @@ class Request
             unset($arr['#text']);
         }
         return $arr;
+    }
+
+    protected function tidyUp(array $response)
+    {
+        return $response;
     }
 }
