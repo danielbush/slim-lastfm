@@ -6,13 +6,13 @@ use GuzzleHttp\Client;
 
 class Request
 {
-    final public function __construct(string $base_uri, string $api_key)
+    public function __construct(string $base_uri, string $api_key)
     {
         $this->client = new Client(array('base_uri' => $base_uri));
         $this->api_key = $api_key;
     }
 
-    final public function get(array $queryParams)
+    public function get(array $queryParams)
     {
         $json = $this->makeRequest($queryParams);
         $response = $this->decodeResponse($json);

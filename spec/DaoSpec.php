@@ -5,12 +5,14 @@ namespace spec\danb\Lastfm;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use GuzzleHttp\Client;
+use danb\Lastfm\Request;
 
 class DaoSpec extends ObjectBehavior
 {
-    function let(Client $client)
+    function let(Request $request)
     {
-        $this->beConstructedWith($client, 'api-key-value');
+        $this->beConstructedWith('https://base_uri', 'api-key-value');
+        $this->request = $request;
     }
 
     function it_is_initializable()
@@ -18,21 +20,17 @@ class DaoSpec extends ObjectBehavior
         $this->shouldHaveType('danb\Lastfm\Dao');
     }
 
-    function it_can_correctly_request_top_artists_by_country(Client $client)
+    function it_can_correctly_request_top_artists_by_country(Request $request)
     {
-        $client->request('GET', null, $this->paramsForTopArtistsByCountry())
-               ->shouldBeCalled();
-        $this->getTopArtistsByCountry('australia', 5, 1);
-
-        $client->request('GET', null, $this->paramsForTopArtistsByCountry(7, 99, 'foo'))
-               ->shouldBeCalled();
+        $request->get($this->paramsForTopArtistsByCountry(7, 99, 'foo'))
+                ->shouldBeCalled();
         $this->getTopArtistsByCountry('foo', 7, 99);
     }
 
-    function it_should_default_to_limit_5_and_page_1(Client $client)
+    function it_should_default_to_limit_5_and_page_1(Request $request)
     {
-        $client->request('GET', null, $this->paramsForTopArtistsByCountry(5, 1))
-               ->shouldBeCalled();
+        $request->get($this->paramsForTopArtistsByCountry(5, 1))
+                ->shouldBeCalled();
         $this->getTopArtistsByCountry('australia');
     }
 
