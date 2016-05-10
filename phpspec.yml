@@ -1,0 +1,4 @@
+suites:
+    danb_lastfm:
+        namespace: danb\Lastfm
+        psr4_prefix: danb\Lastfm

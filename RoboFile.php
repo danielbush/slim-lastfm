@@ -36,4 +36,15 @@ class RoboFile extends \Robo\Tasks
         $this->taskExec("vendor/bin/behat")
              ->run();
     }
+
+    /**
+     * Run unit / spec tests.
+     */
+    public function test()
+    {
+        $this->taskPhpspec()
+             ->format('pretty')
+             ->noInteraction()
+             ->run();
+    }
 }
