@@ -18,6 +18,7 @@ class DaoSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType('danb\Lastfm\Dao');
+        $this->shouldImplement('danb\Lastfm\DaoInterface');
     }
 
     function it_can_correctly_request_top_artists_by_country(Request $request)
@@ -25,6 +26,14 @@ class DaoSpec extends ObjectBehavior
         $request->get($this->paramsForTopArtistsByCountry(7, 99, 'foo'))
                 ->shouldBeCalled();
         $this->getTopArtistsByCountry('foo', 7, 99);
+    }
+
+    function it_can_correctly_request_top_tracks_by_artist(Request $request)
+    {
+        $mbid = 'abcd-123';
+        $request->get($this->paramsForTopTracksByArtist($mbid, 7, 99))
+                ->shouldBeCalled();
+        $this->getTopTracksByArtist($mbid, 7, 99);
     }
 
     function it_should_default_to_limit_5_and_page_1(Request $request)
@@ -43,6 +52,18 @@ class DaoSpec extends ObjectBehavior
         return array(
             'method' => 'geo.gettopartists',
             'country' => $country,
+            'api_key' => $api_key,
+            'format' => 'json',
+            'limit' => $limit,
+            'page' => $page
+        );
+    }
+
+    private function paramsForTopTracksByArtist($mbid, $limit, $page, $api_key = 'api-key-value')
+    {
+        return array(
+            'method' => 'artist.gettoptracks',
+            'mbid' => $mbid,
             'api_key' => $api_key,
             'format' => 'json',
             'limit' => $limit,

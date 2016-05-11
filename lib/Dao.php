@@ -24,4 +24,15 @@ class Dao implements DaoInterface
             'page' => $page
         ));
     }
+    public function getTopTracksByArtist(string $mbid, int $limit = 5, int $page = 1)
+    {
+        $this->request->get(array(
+            'method' => 'artist.gettoptracks',
+            'mbid' => $mbid,
+            'api_key' => $this->api_key,
+            'format' => 'json',
+            'limit' => $limit,
+            'page' => $page
+        ));
+    }
 }

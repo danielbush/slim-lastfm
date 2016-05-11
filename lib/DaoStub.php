@@ -31,6 +31,10 @@ class DaoStub implements DaoInterface
         return $result;
     }
 
+    public function getTopTracksByArtist(string $mbid, int $limit = 5, int $page = 1)
+    {
+    }
+
     /**
      * Return some made up pagination data as would be returned by lastfm.
      */
