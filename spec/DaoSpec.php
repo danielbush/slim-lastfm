@@ -39,7 +39,7 @@ class DaoSpec extends ObjectBehavior
     function it_should_return_the_result_from_Request(Request $request)
     {
         $request->get($this->paramsForTopArtistsByCountry(7, 99, 'US'))
-                ->willReturn(array("some" => "result"))
+                ->willReturn(array("topartists" => array("some" => "result")))
                 ->shouldBeCalled();
         $this->getTopArtistsByCountry('US', 7, 99)->shouldBe(array("some" => "result"));
 
@@ -49,7 +49,7 @@ class DaoSpec extends ObjectBehavior
 
         $mbid = 'abcd-123';
         $request->get($this->paramsForTopTracksByArtist($mbid, 7, 99))
-                ->willReturn(array("some" => "result"))
+                ->willReturn(array("toptracks" => array("some" => "result")))
                 ->shouldBeCalled();
         $this->getTopTracksByArtist($mbid, 7, 99)->shouldBe(array("some" => "result"));
     }
