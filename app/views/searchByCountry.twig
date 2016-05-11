@@ -11,6 +11,12 @@
     <div class="container text-center">
       <div class="col-xs-3"></div>
       <div class="col-xs-6">
+    {% if not ok %}
+      <div class="alert alert-warning fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Sorry</strong> couldn't get a result.
+      </div>
+    {% endif %}
         <form method="get" action="/country">
           <div class="form-group">
             <input type="text" name="country" id="country" class="form-control"
