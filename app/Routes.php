@@ -42,7 +42,7 @@ class Routes
             if (!$page) $page = 1;
 
             $results = $dao->getTopArtistsByCountry($country, 5, $page);
-            //error_log(print_r($results, true));
+            if (!isset($results['@attr'])) $ok = false;
             $attr = $results['@attr'];
 
             $paginator = PaginatorFactory::useLastfmParams($attr, "/country/$country/(:num)");

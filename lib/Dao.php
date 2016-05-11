@@ -30,7 +30,10 @@ class Dao implements DaoInterface
             'limit' => $limit,
             'page' => $page
         ));
-        return $response['topartists'];
+        if (isset($response['topartists'])) {
+            return $response['topartists'];
+        }
+        return null;
     }
 
     public function getTopTracksByArtist($mbid, $limit = 5, $page = 1)
@@ -43,6 +46,9 @@ class Dao implements DaoInterface
             'limit' => $limit,
             'page' => $page
         ));
-        return $response['toptracks'];
+        if (isset($response['toptracks'])) {
+            return $response['toptracks'];
+        }
+        return null;
     }
 }
