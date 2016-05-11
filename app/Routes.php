@@ -35,6 +35,18 @@ class Routes
             ));
         });
 
+        $app->get('/artist/{mbid}/top', function (Request $request, Response $response) {
+            $stub = new DaoStub();
+            $mbid = "5441c29d-3602-4898-b1a1-b77fa23b8e50";
+            $results = $stub->getTopTracksByArtist($mbid);
+            $ok = true;
+            return $this->view->render($response, 'topTracks.twig', array(
+                'ok' => $ok,
+                'rows' => $results['track'],
+                'attr' => $results['attr']
+            ));
+        });
+
         $app->get('/ping', function (Request $request, Response $response) {
             $response = $response->withHeader('Content-Type', 'text/plain');
             $response->getBody()->write("pong");
