@@ -9,7 +9,8 @@ use \danb\Lastfm\Http\PaginatorFactory;
 use JasonGrimes\Paginator;
 
 /**
- * Class for handling the configuration of Slim app routes.
+ * Configures slim application routes to expose functionality in danb\Lastfm
+ * package.
  */
 class Routes
 {

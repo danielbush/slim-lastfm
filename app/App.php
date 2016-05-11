@@ -3,6 +3,7 @@
 namespace danb\Lastfm\Http;
 
 use danb\Lastfm\Http\Routes;
+use Symfony\Component\Yaml\Parser;
 
 /**
  * Represents a slim application.
@@ -13,6 +14,7 @@ class App
 {
 
     public $app;
+    private $config;
     private static $instance;
 
     public static function getInstance()
@@ -34,6 +36,48 @@ class App
         $this->configureTemplateEngine();
         $routes = new Routes();
         $routes->configure($this->app);
+        // This isn't a good solution but there isn't time to handle this better.
+        $this->getConfigOrDie();
+    }
+
+    /**
+     * Try to load 'config.yml' in root of application or throw exception.
+     *
+     */
+    private function getConfigOrDie()
+    {
+        $env = $this->getEnvironment();
+        $yaml = new Parser();
+        $this->config = $yaml->parse(file_get_contents('config.yml'));
+        if (is_null($this->config)) {
+            throw new \Exception("config.yml not found, use config.dist.yml.");
+        }
+        if (!isset($this->config[$env]['api_key'])) {
+            throw new \Exception("api_key not found in config.yml.");
+        }
+        if (!isset($this->config[$env]['lastfm_url'])) {
+            throw new \Exception("lastfm_url not found in config.yml.");
+        }
+    }
+
+    /**
+     * TODO: return our application environment (development, production, staging, test etc).
+     */
+    public function getEnvironment()
+    {
+        return 'development';
+    }
+
+    public function getApiKey()
+    {
+        $env = $this->getEnvironment();
+        return $this->config[$env]['api_key'];
+    }
+
+    public function getBaseUrl()
+    {
+        $env = $this->getEnvironment();
+        return $this->config[$env]['lastfm_url'];
     }
 
     /**
