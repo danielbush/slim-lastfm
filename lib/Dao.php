@@ -35,7 +35,7 @@ class Dao implements DaoInterface
 
     public function getTopTracksByArtist($mbid, $limit = 5, $page = 1)
     {
-        return $this->request->get(array(
+        $response = $this->request->get(array(
             'method' => 'artist.gettoptracks',
             'mbid' => $mbid,
             'api_key' => $this->api_key,
@@ -43,5 +43,6 @@ class Dao implements DaoInterface
             'limit' => $limit,
             'page' => $page
         ));
+        return $response['toptracks'];
     }
 }
