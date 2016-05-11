@@ -1,4 +1,8 @@
 <?php
 
+use \danb\Lastfm\Http\App;
+
 chdir('..');
-require 'app.php';
+require 'vendor/autoload.php';
+$app = App::getInstance();
+$app->run();
