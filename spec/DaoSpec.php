@@ -36,6 +36,24 @@ class DaoSpec extends ObjectBehavior
         $this->getTopTracksByArtist($mbid, 7, 99);
     }
 
+    function it_should_return_the_result_from_Request(Request $request)
+    {
+        $request->get($this->paramsForTopArtistsByCountry(7, 99, 'US'))
+                ->willReturn(array("some" => "result"))
+                ->shouldBeCalled();
+        $this->getTopArtistsByCountry('US', 7, 99)->shouldBe(array("some" => "result"));
+
+        // Below should probably be a separate test.
+        // PHPSpec is presumably suggesting to us here that we are violating SRP
+        // in our Dao class.
+
+        $mbid = 'abcd-123';
+        $request->get($this->paramsForTopTracksByArtist($mbid, 7, 99))
+                ->willReturn(array("some" => "result"))
+                ->shouldBeCalled();
+        $this->getTopTracksByArtist($mbid, 7, 99)->shouldBe(array("some" => "result"));
+    }
+
     function it_should_default_to_limit_5_and_page_1(Request $request)
     {
         $request->get($this->paramsForTopArtistsByCountry(5, 1))

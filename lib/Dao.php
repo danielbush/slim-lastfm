@@ -15,7 +15,7 @@ class Dao implements DaoInterface
 
     public function getTopArtistsByCountry(string $country, int $limit = 5, int $page = 1)
     {
-        $this->request->get(array(
+        return $this->request->get(array(
             'method' => 'geo.gettopartists',
             'country' => $country,
             'api_key' => $this->api_key,
@@ -24,9 +24,10 @@ class Dao implements DaoInterface
             'page' => $page
         ));
     }
+
     public function getTopTracksByArtist(string $mbid, int $limit = 5, int $page = 1)
     {
-        $this->request->get(array(
+        return $this->request->get(array(
             'method' => 'artist.gettoptracks',
             'mbid' => $mbid,
             'api_key' => $this->api_key,
