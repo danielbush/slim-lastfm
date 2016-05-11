@@ -4,5 +4,5 @@ use \danb\Lastfm\Http\App;
 
 require 'vendor/autoload.php';
 
-$app = new App();
+$app = App::getInstance();
 $app->run();

@@ -13,13 +13,22 @@ class App
 {
 
     public $app;
+    private static $instance;
+
+    public static function getInstance()
+    {
+        if (null === static::$instance) {
+            static::$instance = new static();
+        }
+        return static::$instance;
+    }
 
     /**
      * Initialise the slim application so that it is ready to server requests.
      *
      * You will need to call App#run after instantiating.
      */
-    public function __construct()
+    private function __construct()
     {
         $this->app = new \Slim\App();
         $this->configureTemplateEngine();
