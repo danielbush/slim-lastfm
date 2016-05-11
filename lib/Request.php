@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 
 class Request
 {
-    public function __construct(string $base_uri, string $api_key)
+    public function __construct($base_uri, $api_key)
     {
         $this->client = new Client(array('base_uri' => $base_uri));
         $this->api_key = $api_key;
@@ -27,7 +27,7 @@ class Request
         return $response;
     }
 
-    private function decodeResponse(string $json)
+    private function decodeResponse($json)
     {
         return json_decode($json, true);
     }

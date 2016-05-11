@@ -6,14 +6,14 @@ use GuzzleHttp\Client;
 
 class Dao implements DaoInterface
 {
-    public function __construct(string $base_uri, string $api_key)
+    public function __construct($base_uri, $api_key)
     {
         $this->base_uri = $base_uri;
         $this->api_key = $api_key;
         $this->request = new Request($this->base_uri, $this->api_key);
     }
 
-    public function getTopArtistsByCountry(string $country, int $limit = 5, int $page = 1)
+    public function getTopArtistsByCountry($country, $limit = 5, $page = 1)
     {
         return $this->request->get(array(
             'method' => 'geo.gettopartists',
@@ -25,7 +25,7 @@ class Dao implements DaoInterface
         ));
     }
 
-    public function getTopTracksByArtist(string $mbid, int $limit = 5, int $page = 1)
+    public function getTopTracksByArtist($mbid, $limit = 5, $page = 1)
     {
         return $this->request->get(array(
             'method' => 'artist.gettoptracks',

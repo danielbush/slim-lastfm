@@ -20,7 +20,7 @@ class DaoStub implements DaoInterface
      * $result->artists[$n] is an assoc array of artist data
      * $result->attr is assoc array of metadata
      */
-    public function getTopArtistsByCountry(string $country, int $limit = 5, int $page = 1)
+    public function getTopArtistsByCountry(string $country, $limit, $page)
     {
         $result = new \stdClass;
         $result->artists = array_map(function ($num) {
@@ -31,7 +31,7 @@ class DaoStub implements DaoInterface
         return $result;
     }
 
-    public function getTopTracksByArtist(string $mbid, int $limit = 5, int $page = 1)
+    public function getTopTracksByArtist(string $mbid, $limit, $page)
     {
     }
 
