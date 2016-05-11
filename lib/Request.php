@@ -14,7 +14,8 @@ class Request
 
     public function get(array $queryParams)
     {
-        $json = $this->makeRequest($queryParams);
+        $response = $this->makeRequest($queryParams);
+        $json = (string)$response->getBody();
         $response = $this->decodeResponse($json);
         $response = $this->tidyUp($response);
         return $response;
@@ -22,7 +23,7 @@ class Request
 
     private function makeRequest(array $queryParams)
     {
-        $response = $this->client->request('GET', null, $queryParams);
+        $response = $this->client->request('GET', null, array('query' => $queryParams));
         return $response;
     }
 

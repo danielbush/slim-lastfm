@@ -5,6 +5,7 @@ namespace spec\danb\Lastfm;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use GuzzleHttp\Client;
+use Psr\Http\Message\ResponseInterface as Response;
 
 class RequestSpec extends ObjectBehavior
 {
@@ -36,12 +37,13 @@ class RequestSpec extends ObjectBehavior
         $this->api_key->shouldBe('api-key-value');
     }
 
-    function it_can_decode_json_responses(Client $client)
+    function it_can_decode_json_responses(Client $client, Response $response)
     {
         $this->beConstructedWith('http://base-uri', 'api-key-value');
         $this->client = $client; // Put our mock in.
-        $client->request('GET', null, array())
-               ->willReturn('{"some": "response"}');
+        $client->request('GET', null, array('query' => array()))
+               ->willReturn($response);
+        $response->getBody()->willReturn('{"some": "response"}');
         $this->get(array())
              ->shouldBe(array('some' => 'response'));
     }
@@ -52,13 +54,14 @@ class RequestSpec extends ObjectBehavior
              ->shouldBeLike(array('text' => 'some text', 'other' => 456));
     }
 
-    function it_should_use_process_args_as_query_params(Client $client)
+    function it_should_use_args_as_query_params(Client $client, Response $response)
     {
         $this->beConstructedWith('http://base-uri', 'api-key-value');
         $this->client = $client; // Put our mock in.
-        $client->request('GET', null, array('method' => 'method1'))
+        $client->request('GET', null, array('query' => array('method' => 'method1')))
                ->shouldBeCalled()
-               ->willReturn('{"some": "response"}');
+               ->willReturn($response);
+        $response->getBody()->willReturn('{"some": "response"}');
         $this->get(array('method' => 'method1'));
     }
 }
