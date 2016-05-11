@@ -13,9 +13,16 @@ class Dao implements DaoInterface
         $this->request = new Request($this->base_uri, $this->api_key);
     }
 
+    /**
+     * TODO: might be better to create Artist class (ie a model) and get it to parse the xml.
+     * Then we just have a list of Artists to render.
+     * We could generate this list by taking the output below.
+     *
+     * @return array
+     */
     public function getTopArtistsByCountry($country, $limit = 5, $page = 1)
     {
-        return $this->request->get(array(
+        $response = $this->request->get(array(
             'method' => 'geo.gettopartists',
             'country' => $country,
             'api_key' => $this->api_key,
@@ -23,6 +30,7 @@ class Dao implements DaoInterface
             'limit' => $limit,
             'page' => $page
         ));
+        return $response['topartists'];
     }
 
     public function getTopTracksByArtist($mbid, $limit = 5, $page = 1)

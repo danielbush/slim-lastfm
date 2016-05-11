@@ -32,7 +32,8 @@
         <table class="table" ><tbody>
           {% for row in rows %}
             <tr>
-              <td class="col-xs-1 image"><img src="{{ row.image[1].src }}" /></td>
+              {# TODO: Using attribute(); would be better to not expose lastfm's parameter choices directly here. #}
+              <td class="col-xs-1 image"><img src="{{ attribute(row.image[1], '#text') }}" /></td>
               <td class="col-xs-11 text-left name"><a href="/artist/{{ row.mbid }}/top" >{{ row.name }}</a></td>
             </tr>
           {% endfor %}

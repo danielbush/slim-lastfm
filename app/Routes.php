@@ -5,7 +5,9 @@ namespace danb\Lastfm\Http;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use \danb\Lastfm\DaoStub;
+use \danb\Lastfm\Dao;
 use \danb\Lastfm\Http\PaginatorFactory;
+use \danb\Lastfm\Http\App;
 use JasonGrimes\Paginator;
 
 /**
@@ -26,19 +28,28 @@ class Routes
             return $this->view->render($response, 'searchByCountry.twig');
         });
 
-        $app->get('/country[/{name}/{page}]', function (Request $request, Response $response, $args) {
-            $stub = new DaoStub();
-            $country = "australia";
-
-            $results = $stub->getTopArtistsByCountry($country);
-            $attr = $results['attr'];
+        $app->get('/country[/{country}/{page}]', function (Request $request, Response $response, $args) {
+            $dao = App::getInstance()->getDao();
             $ok = true;
+
+            $country = isset($args['country']) ? $args['country'] : null;
+            if (!$country) {
+                $country = isset($request->getQueryParams()['country']) ?
+                    $request->getQueryParams()['country'] : null;
+            }
+            if (!$country) $ok = false;
+            $page = isset($args['page']) ? $args['page'] : null;
+            if (!$page) $page = 1;
+
+            $results = $dao->getTopArtistsByCountry($country, 5, $page);
+            //error_log(print_r($results, true));
+            $attr = $results['@attr'];
 
             $paginator = PaginatorFactory::useLastfmParams($attr, "/country/$country/(:num)");
 
             return $this->view->render($response, 'searchByCountry.twig', array(
                 'ok' => $ok,
-                'rows' => $results['artists'],
+                'rows' => $results['artist'],
                 'attr' => $attr,
                 'paginator' => $paginator
             ));

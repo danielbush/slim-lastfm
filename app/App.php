@@ -3,6 +3,7 @@
 namespace danb\Lastfm\Http;
 
 use danb\Lastfm\Http\Routes;
+use danb\Lastfm\Dao;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -66,6 +67,11 @@ class App
     public function getEnvironment()
     {
         return 'development';
+    }
+
+    public function getDao()
+    {
+        return new Dao($this->getBaseUrl(), $this->getApiKey());
     }
 
     public function getApiKey()

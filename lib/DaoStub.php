@@ -23,7 +23,7 @@ class DaoStub implements DaoInterface
     public function getTopArtistsByCountry($country, $limit = 5, $page = 1)
     {
         $result = array();
-        $result['artists'] = array_map(function ($num) {
+        $result['artist'] = array_map(function ($num) {
             return $this->makeArtist("Artist $num");
         }, range(1, $limit));
         $result['attr'] = $this->makePagination();
