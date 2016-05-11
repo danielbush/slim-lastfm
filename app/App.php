@@ -23,7 +23,8 @@ class App
     {
         $this->app = new \Slim\App();
         $this->configureTemplateEngine();
-        Routes::configure($this->app);
+        $routes = new Routes();
+        $routes->configure($this->app);
     }
 
     /**

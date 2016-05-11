@@ -17,7 +17,7 @@ class Routes
      * @param  \Slim\App $app The slim application.
      * @return \Slim\App Returns $app.
      */
-    public static function configure(\Slim\App $app)
+    public function configure(\Slim\App $app)
     {
         $app->get('/', function (Request $request, Response $response) {
             return $this->view->render($response, 'searchByCountry.twig');
