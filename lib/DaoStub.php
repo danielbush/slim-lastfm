@@ -22,12 +22,12 @@ class DaoStub implements DaoInterface
      */
     public function getTopArtistsByCountry($country, $limit = 5, $page = 1)
     {
-        $result = new \stdClass;
-        $result->artists = array_map(function ($num) {
+        $result = array();
+        $result['artists'] = array_map(function ($num) {
             return $this->makeArtist("Artist $num");
         }, range(1, $limit));
-        $result->attr = $this->makePagination();
-        $result->attr->country = "Australia"; // ucfirst
+        $result['attr'] = $this->makePagination();
+        $result['attr']['country'] = "Australia"; // ucfirst
         return $result;
     }
 
@@ -48,7 +48,7 @@ class DaoStub implements DaoInterface
             "page": "1"
           }
 EOF;
-        return json_decode($attr, false);
+        return json_decode($attr, true);
     }
 
     /**
@@ -88,12 +88,12 @@ EOF;
             "name": "$artistName"
           }
 EOF;
-        $artist = json_decode($artist, false);
+        $artist = json_decode($artist, true);
         // Rewrite '#text' - it's awkward to use.
-        $artist->image = array_map(function ($img) {
-            $img->src = $img->{'#text'};
+        $artist['image'] = array_map(function ($img) {
+            $img['src'] = $img['#text'];
             return $img;
-        }, $artist->image);
+        }, $artist['image']);
         return $artist;
     }
 }

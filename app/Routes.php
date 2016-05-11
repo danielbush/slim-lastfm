@@ -30,8 +30,8 @@ class Routes
             $ok = true;
             return $this->view->render($response, 'searchByCountry.twig', array(
                 'ok' => $ok,
-                'rows' => $results->artists,
-                'attr' => $results->attr
+                'rows' => $results['artists'],
+                'attr' => $results['attr']
             ));
         });
 
