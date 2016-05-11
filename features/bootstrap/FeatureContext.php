@@ -63,4 +63,22 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
         Assert::assertTrue($ok, "At least one link did not have expect href: '$href'");
     }
 
+    /**
+     * @Then I should see country pagination links
+     */
+    public function iShouldSeeCountryPaginationLinks()
+    {
+        $session = $this->getSession();
+        $page = $session->getPage();
+        $links = $page->findAll('css', 'ul.pagination li a');
+        $ok = false;
+        foreach ($links as $link) {
+            $href = $link->getAttribute('href');
+            if (preg_match('#/country/.*/[0-9]#', $href)) {
+                $ok = true;
+                break;
+            }
+        }
+        Assert::assertTrue($ok, "Couldn't find pagination link.");
+    }
 }

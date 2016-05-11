@@ -10,10 +10,12 @@ Feature: Searching by country
     Given I am on "/"
     When I fill in "country" with "australia"
     And I press "Search"
+    Then the url should match "/country"
     Then I should see a "table" element
     Then I should see 5 "tr" elements
     Then I should see 5 "img" elements
     Then I should see a "td" element
     And I should see text matching "Australia"
     And I should see links with href matching "#/artist/[a-f0-9-]+/top#i" for each name
+    And I should see country pagination links
 

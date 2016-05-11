@@ -11,7 +11,7 @@
     <div class="container text-center">
       <div class="col-md-3"></div>
       <div class="col-md-6">
-        <form method="post" action="/">
+        <form method="get" action="/country">
           <div class="form-group">
             <input type="text" name="country" id="country" class="form-control"
                    value="" placeholder="Enter country" required autofocus />
@@ -37,6 +37,7 @@
             </tr>
           {% endfor %}
         </tbody></table>
+        {{ paginator|raw }}
       </div>
       <div class="col-md-3"></div>
     {% endif %}
