@@ -9,8 +9,8 @@
       <p>The most innovative music search evers!</p>
     </div>
     <div class="container text-center">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
+      <div class="col-xs-3"></div>
+      <div class="col-xs-6">
         <form method="get" action="/country">
           <div class="form-group">
             <input type="text" name="country" id="country" class="form-control"
@@ -21,25 +21,25 @@
           </div>
         </form>
       </div>
-      <div class="col-md-3"></div>
+      <div class="col-xs-3"></div>
     </div>
   </div>
   <div class="container text-center">
     {% if ok %}
-      <div class="col-md-3"></div>
-      <div class="col-md-6 text-left">
+      <div class="col-xs-3"></div>
+      <div class="col-xs-6 text-left">
         <h3>Results for {{ attr.country }}</h3>
         <table class="table" ><tbody>
           {% for row in rows %}
             <tr>
-              <td class="col-md-1 image"><img src="{{ row.image[1].src }}" /></td>
-              <td class="col-md-11 text-left name"><a href="/artist/{{ row.mbid }}/top" >{{ row.name }}</a></td>
+              <td class="col-xs-1 image"><img src="{{ row.image[1].src }}" /></td>
+              <td class="col-xs-11 text-left name"><a href="/artist/{{ row.mbid }}/top" >{{ row.name }}</a></td>
             </tr>
           {% endfor %}
         </tbody></table>
         {{ paginator|raw }}
       </div>
-      <div class="col-md-3"></div>
+      <div class="col-xs-3"></div>
     {% endif %}
   </div>
 
