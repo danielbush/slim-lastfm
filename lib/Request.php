@@ -14,7 +14,11 @@ class Request
 
     public function get(array $queryParams)
     {
-        $response = $this->makeRequest($queryParams);
+        try {
+            $response = $this->makeRequest($queryParams);
+        } catch (\Exception $e) {
+            return null;
+        }
         $json = (string)$response->getBody();
         $response = $this->decodeResponse($json);
         $response = $this->tidyUp($response);

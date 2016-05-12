@@ -64,4 +64,16 @@ class RequestSpec extends ObjectBehavior
         $response->getBody()->willReturn('{"some": "response"}');
         $this->get(array('method' => 'method1'));
     }
+
+    // Connection refused, no connectivity... these will probably cause guzzle to throw an exception.
+    function it_will_handle_exceptions(Client $client)
+    {
+        $this->beConstructedWith('http://base-uri', 'api-key-value');
+        $this->client = $client; // Put our mock in.
+        $client->request('GET', null, array('query' => array('method' => 'method1')))
+               ->shouldBeCalled()
+               ->willThrow('\Exception');
+        $this->get(array('method' => 'method1'))
+             ->shouldBe(null);
+    }
 }
