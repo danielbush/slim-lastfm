@@ -31,24 +31,32 @@ class Routes
         $app->get('/country[/{country}/{page}]', function (Request $request, Response $response, $args) {
             $dao = App::getInstance()->getDao();
             $ok = true;
+            $error = false;
 
             $country = isset($args['country']) ? $args['country'] : null;
             if (!$country) {
                 $country = isset($request->getQueryParams()['country']) ?
                     $request->getQueryParams()['country'] : null;
             }
-            if (!$country) $ok = false;
+            if (!$country) {
+                $ok = false;
+                $error = true;
+            }
             $page = isset($args['page']) ? $args['page'] : null;
             if (!$page) $page = 1;
 
             $results = $dao->getTopArtistsByCountry($country, 5, $page);
-            if (!isset($results['@attr'])) $ok = false;
+            if (!isset($results['@attr'])) {
+                $ok = false;
+                $error = true;
+            }
             $attr = $results['@attr'];
 
             $paginator = PaginatorFactory::useLastfmParams($attr, "/country/$country/(:num)");
 
             return $this->view->render($response, 'searchByCountry.twig', array(
                 'ok' => $ok,
+                'error' => $error,
                 'rows' => $results['artist'],
                 'attr' => $attr,
                 'paginator' => $paginator

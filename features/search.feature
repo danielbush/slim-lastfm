@@ -19,3 +19,8 @@ Feature: Searching by country
     And I should see links with href matching "#/artist/[a-f0-9-]+/top#i" for each name
     And I should see country pagination links
 
+  Scenario: Searching an invalid country and valid page
+    Given I am on "/"
+    When I fill in "country" with "bad-country-name"
+    And I press "Search"
+    And I should see text matching "couldn't get a result"
