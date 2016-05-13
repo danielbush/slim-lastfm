@@ -25,33 +25,43 @@ class Routes
     public function configure(\Slim\App $app)
     {
         $app->get('/', function (Request $request, Response $response) {
-            return $this->view->render($response, 'searchByCountry.twig');
+            $country = isset($request->getQueryParams()['country']) ?
+                $request->getQueryParams()['country'] : null;
+
+            if (is_null($country)) {
+                return $this->view->render($response, 'searchByCountry.twig', array());
+            }
+            return $response->withRedirect("/country/{$country}/1");
         });
 
-        $app->get('/country[/{country}/{page}]', function (Request $request, Response $response, $args) {
+        $app->get('/country/{country}/{page:[0-9]+}', function (
+            Request $request,
+            Response $response,
+            $args
+        ) {
             $dao = App::getInstance()->getDao();
             $ok = true;
             $error = false;
+            $country = trim($args['country']);
+            $page = (int)$args['page'];
+            $page = ($page === 0) ? 1 : $page;
 
-            $country = isset($args['country']) ? $args['country'] : null;
-            if (!$country) {
-                $country = isset($request->getQueryParams()['country']) ?
-                    $request->getQueryParams()['country'] : null;
+            if (!checkCountryParam($country)) {
+                return $this->view->render($response, 'searchByCountry.twig', array(
+                    'ok' => false,
+                    'error' => true,
+                ));
             }
-            if (!$country) {
-                $ok = false;
-                $error = true;
-            }
-            $page = isset($args['page']) ? $args['page'] : null;
-            if (!$page) $page = 1;
 
             $results = $dao->getTopArtistsByCountry($country, 5, $page);
-            if (!isset($results['@attr'])) {
-                $ok = false;
-                $error = true;
+            if (is_null($results)) {
+                return $this->view->render($response, 'searchByCountry.twig', array(
+                    'ok' => false,
+                    'error' => true,
+                ));
             }
-            $attr = $results['@attr'];
 
+            $attr = $results['@attr'];
             $paginator = PaginatorFactory::useLastfmParams($attr, "/country/$country/(:num)");
 
             return $this->view->render($response, 'searchByCountry.twig', array(
@@ -63,13 +73,16 @@ class Routes
             ));
         });
 
-        $app->get('/artist/{mbid}/top', function (Request $request, Response $response, $args) {
+        $app->get('/artist/{mbid:[0-9A-Fa-f-]+}/top', function (Request $request, Response $response, $args) {
             $dao = App::getInstance()->getDao();
             $mbid = $args['mbid'];
             $results = $dao->getTopTracksByArtist($mbid);
-            $ok = true;
+            if (is_null($results)) {
+                // TODO: put a flash in with error message.
+                return $response->withRedirect('/');
+            }
             return $this->view->render($response, 'topTracks.twig', array(
-                'ok' => $ok,
+                'ok' => true,
                 'rows' => $results['track'],
                 'attr' => $results['@attr']
             ));
@@ -83,4 +96,18 @@ class Routes
 
         return $app;
     }
+}
+
+/**
+ * Sanity check country name input.
+ *
+ * TODO: probably should put it in a class since we're autoloading everything.
+ */
+function checkCountryParam($country)
+{
+    if (strlen($country) > 50) {
+        return false;
+    }
+    return preg_match('/^[\s\w-)(]+$/', $country);
+
 }
